@@ -1,0 +1,28 @@
+{
+  "name": "fetch-wrapper-ts",
+  "version": "1.0.1",
+  "description": "A TypeScript wrapper fetch wrapper with interceptors and strong typing.",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --outDir dist",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "fetch",
+    "typescript",
+    "http",
+    "api",
+    "interceptors"
+  ],
+  "author": "Kaleb",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "tsup": "^8.4.0",
+    "typescript": "^4.0.0"
+  }
+}
