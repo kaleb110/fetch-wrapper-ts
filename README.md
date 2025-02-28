@@ -1,6 +1,21 @@
-# Foxios - Lightweight Fetch Wrapper
+ <p align="center">
+  <img src="https://i.postimg.cc/ydGxpJHT/logo-4.png" alt="Logo">
+</p>
+<p align="center">
+  a lightweight fetch api wrapper
+</p>
 
-Foxios is a simple HTTP client inspired by Axios but built around the Fetch API. It provides a clean interface for making HTTP requests with support for query parameters, request/response interceptors, and error handling.
+<div align="center">
+
+[![npm version](https://img.shields.io/npm/v/foxios.svg?style=flat-square)](https://www.npmjs.org/package/foxios)
+![install size](https://img.shields.io/badge/dynamic/json?url=https://packagephobia.com/v2/api.json?p=foxios&query=$.install.pretty&label=install%20size&style=flat-square)
+[![Known Vulnerabilities](https://snyk.io/test/npm/foxios/badge.svg)](https://snyk.io/test/npm/foxios)
+
+
+
+
+</div>
+Foxios is a simple HTTP client inspired by foxios but built around the Fetch API. It provides a clean interface for making HTTP requests with support for query parameters, request/response interceptors, and error handling.
 
 ## Installation
 
