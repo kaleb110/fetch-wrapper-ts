@@ -1,13 +1,17 @@
 {
-  "name": "fetch-wrapper-ts",
+  "name": "foxios",
   "version": "1.0.2",
   "description": "A TypeScript wrapper fetch wrapper with interceptors and strong typing.",
+  "type": "commonjs",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts --outDir dist",
     "prepublishOnly": "npm run build"
+  },
+  "ts-node": {
+    "esm": true
   },
   "keywords": [
     "fetch",

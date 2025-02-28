@@ -1,18 +1,18 @@
-export class FetchError extends Error {
-  public status: number;
-  public response?: Response;
-  public details?: unknown;
+export class FoxiosError extends Error {
+  status: number;
+  response?: Response;
+  data?: any;
 
   constructor(
     message: string,
     status: number,
     response?: Response,
-    details?: unknown
+    data?: any
   ) {
     super(message);
+    this.name = "FoxiosError";
     this.status = status;
     this.response = response;
-    this.details = details;
-    Object.setPrototypeOf(this, FetchError.prototype);
+    this.data = data;
   }
 }

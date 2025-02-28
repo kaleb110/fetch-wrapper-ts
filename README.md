@@ -1,54 +1,99 @@
-# Fetch Wrapper TS
+# Foxios - Lightweight Fetch Wrapper
 
-A simple and advanced wrapper around `fetch` for making HTTP requests easily with interceptors.
+Foxios is a simple HTTP client inspired by Axios but built around the Fetch API. It provides a clean interface for making HTTP requests with support for query parameters, request/response interceptors, and error handling.
 
 ## Installation
 
 ```sh
-npm install fetch-wrapper-ts
+npm install foxios
 ```
 
-or with Yarn:
+or
 
 ```sh
-yarn add fetch-wrapper-ts
+yarn add foxios
 ```
 
 ## Usage
 
+### Import Foxios
+
 ```typescript
-import AdvancedFetch from "fetch-wrapper-ts";
-
-const api = new AdvancedFetch("https://jsonplaceholder.typicode.com");
-
-// Add a request interceptor
-api.addRequestInterceptor(async (url, options) => {
-  console.log("Request URL:", url);
-  console.log("Request Options:", options);
-  return [url, options];
-});
-
-// Add a response interceptor
-api.addResponseInterceptor(async (response) => {
-  console.log("Response received:", response);
-  return response;
-});
-
-(async () => {
-  try {
-    const posts = await api.get<any[]>("/posts", { queryParams: { _limit: 5 } });
-    console.log("Posts:", posts.data);
-  } catch (error) {
-    console.error("API Error:", error);
-  }
-})();
+import foxios from "foxios";
 ```
 
-## Features
-- ✅ Simple GET, POST, PUT, DELETE requests
-- ✅ Request & response interceptors
-- ✅ Error handling
+### GET Request
 
-## License
-MIT
+```typescript
+const response = await foxios.get("/posts", {
+  baseURL: "https://jsonplaceholder.typicode.com",
+  queryParams: { _limit: 5 },
+});
+console.log(response.data);
+```
+
+### POST Request
+
+```typescript
+const response = await foxios.post("/posts", {
+  title: "Hello World",
+  body: "This is a test post.",
+  userId: 1,
+}, {
+  baseURL: "https://jsonplaceholder.typicode.com",
+});
+console.log(response.data);
+```
+
+### PUT Request
+
+```typescript
+const response = await foxios.put("/posts/1", {
+  title: "Updated Title",
+  body: "Updated Content.",
+}, {
+  baseURL: "https://jsonplaceholder.typicode.com",
+});
+console.log(response.data);
+```
+
+### DELETE Request
+
+```typescript
+const response = await foxios.delete("/posts/1", {
+  baseURL: "https://jsonplaceholder.typicode.com",
+});
+console.log(response.data);
+```
+
+## Error Handling
+
+```typescript
+try {
+  const response = await foxios.get("/invalid-url", {
+    baseURL: "https://jsonplaceholder.typicode.com",
+  });
+} catch (error) {
+  console.error("Request failed:", error);
+}
+```
+
+## Contribution Guidelines
+
+### How to Contribute
+- Fork the repository.
+- Create a feature branch.
+- Commit your changes with clear messages.
+- Open a pull request.
+
+### Code Style
+- Follow TypeScript best practices.
+- Use meaningful variable and function names.
+- Maintain clean and readable code.
+
+### Reporting Issues
+- Open an issue with clear reproduction steps.
+- Provide expected and actual behavior.
+
+Foxios is open-source and contributions are welcome! 🚀
 

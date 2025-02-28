@@ -1,150 +1,92 @@
-import {
-  RequestOptions,
-  FetchResponse,
-  RequestInterceptor,
-  ResponseInterceptor,
-} from "./types";
-import { FetchError } from "./error";
+import { RequestConfig, FoxiosResponse, FoxiosInstance } from "./types";
+import { FoxiosError } from "./error";
 
-export class AdvancedFetch {
-  private baseUrl: string;
-  private requestInterceptors: RequestInterceptor[] = [];
-  private responseInterceptors: ResponseInterceptor[] = [];
+async function request<T>(
+  method: string,
+  url: string,
+  data?: any,
+  config: RequestConfig = {}
+): Promise<FoxiosResponse<T>> {
+  let fullUrl: string;
 
-  constructor(baseUrl: string = "") {
-    this.baseUrl = baseUrl;
+  // Ensure the URL is properly formatted
+  if (config.baseURL) {
+    fullUrl = new URL(url, config.baseURL).toString();
+  } else if (url.startsWith("http")) {
+    fullUrl = url;
+  } else {
+    throw new FoxiosError(`Invalid URL: ${url}`, 0);
   }
 
-  public setBaseUrl(url: string) {
-    this.baseUrl = url;
-  }
-
-  public addRequestInterceptor(interceptor: RequestInterceptor) {
-    this.requestInterceptors.push(interceptor);
-  }
-
-  public addResponseInterceptor(interceptor: ResponseInterceptor) {
-    this.responseInterceptors.push(interceptor);
-  }
-
-  private async applyRequestInterceptors(
-    url: string,
-    options: RequestOptions
-  ): Promise<[string, RequestOptions]> {
-    let modifiedUrl = url;
-    let modifiedOptions = { ...options };
-    for (const interceptor of this.requestInterceptors) {
-      const result = await interceptor(modifiedUrl, modifiedOptions);
-      modifiedUrl = result[0];
-      modifiedOptions = result[1];
+  // Append query parameters
+  if (config.queryParams) {
+    const params = new URLSearchParams();
+    for (const key in config.queryParams) {
+      params.append(key, String(config.queryParams[key]));
     }
-    return [modifiedUrl, modifiedOptions];
+    fullUrl += `?${params.toString()}`;
   }
 
-  private async applyResponseInterceptors<T>(
-    response: FetchResponse<T>
-  ): Promise<FetchResponse<T>> {
-    let modifiedResponse = response;
-    for (const interceptor of this.responseInterceptors) {
-      modifiedResponse = await interceptor(modifiedResponse) as FetchResponse<T>;
-    }
-    return modifiedResponse;
+  const headers = new Headers(config.headers || {});
+  if (data && !headers.has("Content-Type")) {
+    headers.set("Content-Type", "application/json");
   }
 
-  private buildQueryParams(
-    queryParams?: Record<string, string | number | boolean>
-  ): string {
-    if (!queryParams) return "";
-    const query = new URLSearchParams();
-    for (const key in queryParams) {
-      query.append(key, String(queryParams[key]));
-    }
-    return `?${query.toString()}`;
+  const init: RequestInit = {
+    method,
+    headers,
+  };
+
+  if (data) {
+    init.body = headers.get("Content-Type")?.includes("application/json")
+      ? JSON.stringify(data)
+      : data;
   }
 
-  public async request<T>(
-    endpoint: string,
-    options: RequestOptions = {}
-  ): Promise<FetchResponse<T>> {
-    let url = this.baseUrl + endpoint;
-    if (options.queryParams) {
-      url += this.buildQueryParams(options.queryParams);
-      delete options.queryParams;
-    }
-
-    // Apply request interceptors.
-    [url, options] = await this.applyRequestInterceptors(url, options);
-
-    const response = await fetch(url, options);
-    const headers = response.headers;
-    const status = response.status;
-    let data: T;
-
-    try {
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
-        data = await response.json();
-      } else {
-        data = (await response.text()) as unknown as T;
-      }
-    } catch (error) {
-      throw new FetchError("Failed to parse response", status, response);
-    }
-
-    const fetchResponse: FetchResponse<T> = { data, status, headers };
-
-    if (!response.ok) {
-      throw new FetchError(response.statusText, status, response, data);
-    }
-
-    return await this.applyResponseInterceptors(fetchResponse);
+  let response: Response;
+  try {
+    response = await fetch(fullUrl, init);
+  } catch (err: any) {
+    throw new FoxiosError(`Network Error: ${err.message}`, 0);
   }
 
-  public get<T>(
-    endpoint: string,
-    options: RequestOptions = {}
-  ): Promise<FetchResponse<T>> {
-    return this.request<T>(endpoint, { ...options, method: "GET" });
+  const contentType = response.headers.get("content-type");
+  let responseData: any;
+  try {
+    responseData = contentType?.includes("application/json")
+      ? await response.json()
+      : await response.text();
+  } catch {
+    responseData = null;
   }
 
-  public post<T>(
-    endpoint: string,
-    body: unknown,
-    options: RequestOptions = {}
-  ): Promise<FetchResponse<T>> {
-    return this.request<T>(endpoint, {
-      ...options,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...(options.headers || {}),
-      },
-      body: JSON.stringify(body),
-    });
+  const foxiosResponse: FoxiosResponse<T> = {
+    data: responseData,
+    status: response.status,
+    headers: response.headers,
+  };
+
+  if (!response.ok) {
+    throw new FoxiosError(
+      response.statusText,
+      response.status,
+      response,
+      responseData
+    );
   }
 
-  public put<T>(
-    endpoint: string,
-    body: unknown,
-    options: RequestOptions = {}
-  ): Promise<FetchResponse<T>> {
-    return this.request<T>(endpoint, {
-      ...options,
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        ...(options.headers || {}),
-      },
-      body: JSON.stringify(body),
-    });
-  }
-
-  public delete<T>(
-    endpoint: string,
-    options: RequestOptions = {}
-  ): Promise<FetchResponse<T>> {
-    return this.request<T>(endpoint, { ...options, method: "DELETE" });
-  }
+  return foxiosResponse;
 }
 
-export default AdvancedFetch;
+const foxios: FoxiosInstance = {
+  get: <T>(url: string, config?: RequestConfig) =>
+    request<T>("GET", url, undefined, config),
+  post: <T>(url: string, data?: any, config?: RequestConfig) =>
+    request<T>("POST", url, data, config),
+  put: <T>(url: string, data?: any, config?: RequestConfig) =>
+    request<T>("PUT", url, data, config),
+  delete: <T>(url: string, config?: RequestConfig) =>
+    request<T>("DELETE", url, undefined, config),
+};
+
+export default foxios;

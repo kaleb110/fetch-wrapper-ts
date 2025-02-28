@@ -1,37 +1,46 @@
-import AdvancedFetch from "../src/index";
+import foxios from "../src/index";
 
-// Create an instance with a base URL.
-const api = new AdvancedFetch("https://jsonplaceholder.typicode.com");
-
-// Add a request interceptor to log outgoing requests.
-api.addRequestInterceptor((url, options) => {
-  console.log("Request URL:", url);
-  console.log("Request Options:", options);
-  return [url, options];
-});
-
-// Add a response interceptor to log responses.
-api.addResponseInterceptor((response) => {
-  console.log("Response received:", response);
-  return response;
-});
-
-(async () => {
+async function runExamples() {
   try {
-    // GET request with query params.
-    const postsResponse = await api.get<any[]>("/posts", {
-      queryParams: { _limit: 2 },
-    });
-    console.log("Posts:", postsResponse.data);
+    console.log("=== GET Request Example ===");
+    const getResponse = await foxios.get(
+      "https://jsonplaceholder.typicode.com/posts",
+      {
+        queryParams: { _limit: 2 },
+      }
+    );
+    console.log(getResponse.data);
 
-    // POST request.
-    const newPostResponse = await api.post("/posts", {
-      title: "Hello World",
-      body: "This is a test post.",
-      userId: 1,
-    });
-    console.log("New Post:", newPostResponse.data);
+    console.log("\n=== POST Request Example ===");
+    const postResponse = await foxios.post(
+      "https://jsonplaceholder.typicode.com/posts",
+      {
+        title: "New Post",
+        body: "This is a test post.",
+        userId: 1,
+      }
+    );
+    console.log(postResponse.data);
+
+    console.log("\n=== PUT Request Example ===");
+    const putResponse = await foxios.put(
+      "https://jsonplaceholder.typicode.com/posts/1",
+      {
+        title: "Updated Post",
+        body: "Updated content.",
+        userId: 1,
+      }
+    );
+    console.log(putResponse.data);
+
+    console.log("\n=== DELETE Request Example ===");
+    const deleteResponse = await foxios.delete(
+      "https://jsonplaceholder.typicode.com/posts/1"
+    );
+    console.log(`Deleted with status ${deleteResponse.status}`);
   } catch (error) {
-    console.error("API Error:", error);
+    console.error("Error during Foxios requests:", error);
   }
-})();
+}
+
+runExamples();
