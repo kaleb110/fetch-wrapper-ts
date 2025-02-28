@@ -1,13 +1,14 @@
 {
   "name": "foxios",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A TypeScript wrapper fetch wrapper with interceptors and strong typing.",
   "type": "commonjs",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts --outDir dist",
+    "build": "esbuild src/index.ts --bundle --minify --sourcemap --platform=node --target=esnext --outfile=dist/foxios.min.js",
+    "test": "vitest",
     "prepublishOnly": "npm run build"
   },
   "ts-node": {
@@ -27,14 +28,17 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/kaleb110/fetch-wrapper-ts.git"
+    "url": "https://github.com/kaleb110/foxios.git"
   },
   "bugs": {
-    "url": "https://github.com/kaleb110/fetch-wrapper-ts/issues"
+    "url": "https://github.com/kaleb110/foxios/issues"
   },
-  "homepage": "https://github.com/kaleb110/fetch-wrapper-ts#readme",
+  "homepage": "https://github.com/kaleb110/foxios#readme",
   "devDependencies": {
+    "esbuild": "^0.25.0",
+    "ts-node": "^10.9.2",
     "tsup": "^8.4.0",
-    "typescript": "^4.0.0"
+    "typescript": "^4.0.0",
+    "vitest": "^3.0.7"
   }
 }

@@ -35,6 +35,8 @@ async function request<T>(
   const init: RequestInit = {
     method,
     headers,
+    cache: "no-store", // Avoid unnecessary cache hits
+    keepalive: true, // Keeps the connection alive
   };
 
   if (data) {
