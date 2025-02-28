@@ -10,6 +10,8 @@
 [![npm version](https://img.shields.io/npm/v/foxios.svg?style=flat-square)](https://www.npmjs.org/package/foxios)
 ![install size](https://img.shields.io/badge/dynamic/json?url=https://packagephobia.com/v2/api.json?p=foxios&query=$.install.pretty&label=install%20size&style=flat-square)
 [![Known Vulnerabilities](https://snyk.io/test/npm/foxios/badge.svg)](https://snyk.io/test/npm/foxios)
+<a href="https://bundlejs.com/?q=foxios#sharing"><img src='https://deno.bundlejs.com/badge?q=foxios'/></a>
+<a href="https://github.com/kaleb110/foxios/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="license-badge" height="20"></a>
 
 
 
