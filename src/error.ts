@@ -10,7 +10,7 @@ export class FoxiosError extends Error {
     data?: any
   ) {
     super(message);
-    this.name = "FoxiosError";
+    this.name = 'FoxiosError';
     this.status = status;
     this.response = response;
     this.data = data;

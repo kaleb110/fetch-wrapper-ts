@@ -1,5 +1,5 @@
-import { RequestConfig, FoxiosResponse, FoxiosInstance } from "./types";
-import { FoxiosError } from "./error";
+import { RequestConfig, FoxiosResponse, FoxiosInstance } from './types';
+import { FoxiosError } from './error';
 
 async function request<T>(
   method: string,
@@ -12,7 +12,7 @@ async function request<T>(
   // Ensure the URL is properly formatted
   if (config.baseURL) {
     fullUrl = new URL(url, config.baseURL).toString();
-  } else if (url.startsWith("http")) {
+  } else if (url.startsWith('http')) {
     fullUrl = url;
   } else {
     throw new FoxiosError(`Invalid URL: ${url}`, 0);
@@ -28,19 +28,19 @@ async function request<T>(
   }
 
   const headers = new Headers(config.headers || {});
-  if (data && !headers.has("Content-Type")) {
-    headers.set("Content-Type", "application/json");
+  if (data && !headers.has('Content-Type')) {
+    headers.set('Content-Type', 'application/json');
   }
 
   const init: RequestInit = {
     method,
     headers,
-    cache: "no-store", // Avoid unnecessary cache hits
+    cache: 'no-store', // Avoid unnecessary cache hits
     keepalive: true, // Keeps the connection alive
   };
 
   if (data) {
-    init.body = headers.get("Content-Type")?.includes("application/json")
+    init.body = headers.get('Content-Type')?.includes('application/json')
       ? JSON.stringify(data)
       : data;
   }
@@ -52,10 +52,10 @@ async function request<T>(
     throw new FoxiosError(`Network Error: ${err.message}`, 0);
   }
 
-  const contentType = response.headers.get("content-type");
+  const contentType = response.headers.get('content-type');
   let responseData: any;
   try {
-    responseData = contentType?.includes("application/json")
+    responseData = contentType?.includes('application/json')
       ? await response.json()
       : await response.text();
   } catch {
@@ -82,13 +82,13 @@ async function request<T>(
 
 const foxios: FoxiosInstance = {
   get: <T>(url: string, config?: RequestConfig) =>
-    request<T>("GET", url, undefined, config),
+    request<T>('GET', url, undefined, config),
   post: <T>(url: string, data?: any, config?: RequestConfig) =>
-    request<T>("POST", url, data, config),
+    request<T>('POST', url, data, config),
   put: <T>(url: string, data?: any, config?: RequestConfig) =>
-    request<T>("PUT", url, data, config),
+    request<T>('PUT', url, data, config),
   delete: <T>(url: string, config?: RequestConfig) =>
-    request<T>("DELETE", url, undefined, config),
+    request<T>('DELETE', url, undefined, config),
 };
 
 export default foxios;

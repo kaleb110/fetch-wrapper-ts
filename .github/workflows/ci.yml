@@ -3,6 +3,7 @@ name: CI/CD for Foxios
 on:
   push:
     branches: [main]
+    tags: ['v*']  # This will trigger on version tags like v1.0.0, v1.1.0, etc.
   pull_request:
     branches: [main]
 
@@ -18,7 +19,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: "npm"
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm install
@@ -26,8 +27,33 @@ jobs:
       - name: Run tests
         run: npm test
 
-  build:
+  lint-and-format:
+    runs-on: ubuntu-latest
     needs: test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run Prettier check
+        run: npm run format -- --check
+
+      - name: Run ESLint fix
+        run: npm run lint:fix
+
+  build:
+    needs: lint-and-format
     runs-on: ubuntu-latest
 
     steps:
@@ -54,6 +80,15 @@ jobs:
 
       - name: Build project
         run: npm run build
+
+      - name: Verify GitHub Ref
+        run: 'echo "Git ref: ${{ github.ref }}"'
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run Prettier check
+        run: npm run format -- --check
 
       - name: Publish to npm
         run: npm publish --access public

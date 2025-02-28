@@ -29,6 +29,7 @@ Thank you for considering contributing to Foxios! Contributions are welcome and 
 ## Running Tests
 
 Run tests to ensure stability before submitting:
+
 ```sh
 npm test
 ```
@@ -69,4 +70,3 @@ npm test
 ### Thank You!
 
 Your contributions make Foxios better! 🚀
-
