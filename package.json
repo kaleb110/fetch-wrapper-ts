@@ -27,10 +27,10 @@
   "author": "Kaleb",
   "license": "MIT",
   "files": [
-    "dist/foxios.min.js",
-    "dist/foxios.min.mjs",
-    "dist/types/index.d.ts",
-    "dist/types/**/*.d.ts"
+    "dist/foxios.min.js",    
+    "dist/foxios.min.mjs",     
+    "dist/types/index.d.ts",   
+    "dist/types/**/*.d.ts"     
   ],
   "repository": {
     "type": "git",
