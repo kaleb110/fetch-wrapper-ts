@@ -1,6 +1,6 @@
 {
   "name": "foxios",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A TypeScript wrapper fetch wrapper with interceptors and strong typing.",
   "type": "commonjs",
   "main": "dist/index.js",
