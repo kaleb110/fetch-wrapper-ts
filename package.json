@@ -1,10 +1,10 @@
 {
   "name": "foxios",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A TypeScript wrapper fetch wrapper with interceptors and strong typing.",
-  "main": "dist/foxios.min.js",  
-  "module": "dist/foxios.min.mjs",  
-  "types": "dist/types/index.d.ts", 
+  "main": "dist/foxios.min.js",
+  "module": "dist/foxios.min.mjs",
+  "types": "dist/types/index.d.ts",
   "scripts": {
     "build": "npm run build:tsc && npm run build:esbuild",
     "build:tsc": "tsc --emitDeclarationOnly --declaration --outDir dist",
