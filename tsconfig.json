@@ -3,16 +3,16 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "node",
-    "declaration": true,
-    "declarationDir": "dist/types", // This should output the types to dist/types
-    "outDir": "dist", // This is where the .js files will go
-    "rootDir": "src", // Root folder for TypeScript source files
     "esModuleInterop": true,
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "declaration": true, // This tells TypeScript to generate declaration files
+    "declarationDir": "dist/types", // This is where the .d.ts files will go
+    "outDir": "dist", // This is where the .js files will go
+    "rootDir": "src" // Ensure the source files are in the 'src' folder
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]

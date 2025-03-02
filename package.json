@@ -6,8 +6,8 @@
   "module": "dist/foxios.min.mjs",
   "types": "dist/types/index.d.ts",
   "scripts": {
-    "build": "npm run build:tsc && npm run build:esbuild",
-    "build:tsc": "tsc --emitDeclarationOnly --declaration --outDir dist",
+        "build": "npm run build:tsc && npm run build:esbuild", 
+    "build:tsc": "tsc --declaration --outDir dist/types",  
     "build:esbuild": "esbuild src/core/foxios.ts --bundle --minify --sourcemap --platform=node --target=esnext --outfile=dist/foxios.min.js",
     "test": "vitest",
     "format": "prettier --write .",
