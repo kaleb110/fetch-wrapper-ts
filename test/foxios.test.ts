@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import foxios from "../src/core/foxios"
+import { foxios } from '../src/core/foxios';
 
 describe('foxios HTTP Client', () => {
   // Reset mocks before each test to ensure test isolation.
