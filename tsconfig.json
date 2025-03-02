@@ -9,10 +9,10 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "declaration": true, // This tells TypeScript to generate declaration files
-    "declarationDir": "dist/types", // This is where the .d.ts files will go
-    "outDir": "dist", // This is where the .js files will go
-    "rootDir": "src" // Ensure the source files are in the 'src' folder
+    "declaration": true, // Enable type declaration generation
+    "declarationDir": "dist/types", // Output all declarations to dist/types
+    "outDir": "dist", // Output bundled JS files to dist/
+    "rootDir": "src" // The root directory of your source files
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
