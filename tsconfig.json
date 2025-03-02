@@ -4,8 +4,9 @@
     "module": "ESNext",
     "moduleResolution": "node",
     "declaration": true, // Enable the generation of .d.ts files
-    "declarationDir": "dist", // Specify the directory for type definition files
-    "outDir": "dist", // Specify the output directory for compiled JS files
+    "declarationDir": "dist/types", // Change this to your preferred output folder
+    "outDir": "dist", // Output for .js files
+    "rootDir": "src", // Root directory of your source files
     "esModuleInterop": true,
     "skipLibCheck": true,
     "strict": true,
