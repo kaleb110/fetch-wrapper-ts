@@ -8,7 +8,7 @@
   "scripts": {
     "build": "npm run build:tsc && npm run build:esbuild",
     "build:tsc": "tsc --declaration --declarationDir dist/types --outDir dist src/index.ts",
-    "build:esbuild": "esbuild src/core/foxios.ts --bundle --minify --sourcemap --platform=node --target=esnext --outfile=dist/foxios.min.js",
+    "build:esbuild": "esbuild src/core/foxios.ts --bundle --minify --sourcemap --platform=node --target=esnext --outfile=dist/foxios.min.js && esbuild src/core/foxios.ts --bundle --minify --sourcemap --platform=node --target=esnext --format=esm --outfile=dist/foxios.min.mjs",
     "test": "vitest",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
