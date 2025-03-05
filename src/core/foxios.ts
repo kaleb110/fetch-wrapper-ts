@@ -105,5 +105,5 @@ const foxios: FoxiosInstance = {
   },
 };
 
-export { foxios };  // Default export
-export type { FoxiosInstance };  // Export FoxiosInstance type
+export { foxios }; // Default export
+export type { FoxiosInstance }; // Export FoxiosInstance type
