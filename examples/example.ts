@@ -1,5 +1,6 @@
-import foxios from '../src/core/foxios';
-
+import { foxios } from '../src/index';
+import { FoxiosResponse } from '../src/index';
+import { FoxiosError } from '../src/index';
 // ==============================
 // Setup: Add an Interceptor for Authentication
 // ==============================
@@ -16,7 +17,7 @@ async function runExamples() {
   try {
     // Relative URL example (assumes you're running in a browser)
     console.log('=== GET Request Example (Relative URL) ===');
-    const getResponseRelative = await foxios.get(
+    const getResponseRelative: FoxiosResponse = await foxios.get(
       '/posts', // relative URL
       {
         baseURL: 'https://jsonplaceholder.typicode.com', // or omit this if running in a browser
@@ -32,7 +33,7 @@ async function runExamples() {
 
     // Absolute URL example
     console.log('\n=== GET Request Example (Absolute URL) ===');
-    const getResponseAbsolute = await foxios.get(
+    const getResponseAbsolute: FoxiosResponse = await foxios.get(
       'https://jsonplaceholder.typicode.com/posts?_limit=2',
       {
         timeout: 5000,
@@ -45,7 +46,7 @@ async function runExamples() {
     console.log('Absolute URL GET Response:', getResponseAbsolute.data);
 
     console.log('\n=== POST Request Example ===');
-    const postResponse = await foxios.post(
+    const postResponse: FoxiosResponse = await foxios.post(
       'https://jsonplaceholder.typicode.com/posts',
       {
         title: 'New Post',
@@ -63,7 +64,7 @@ async function runExamples() {
     console.log('POST Response:', postResponse.data);
 
     console.log('\n=== PUT Request Example ===');
-    const putResponse = await foxios.put(
+    const putResponse: FoxiosResponse = await foxios.put(
       'https://jsonplaceholder.typicode.com/posts/1',
       {
         title: 'Updated Post',
@@ -81,7 +82,7 @@ async function runExamples() {
     console.log('PUT Response:', putResponse.data);
 
     console.log('\n=== DELETE Request Example ===');
-    const deleteResponse = await foxios.delete(
+    const deleteResponse: FoxiosResponse = await foxios.delete(
       'https://jsonplaceholder.typicode.com/posts/1',
       {
         timeout: 5000,
